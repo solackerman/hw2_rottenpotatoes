@@ -6,18 +6,18 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
-  def index
-    
+  def index    
     @all_ratings = Movie.all_ratings
     if params[:ratings] != nil
+      session[:ratings] = params[:ratings]
+      session[:sort] = params[:sort]
       @movies = Movie.find_all_by_rating( params[:ratings].keys, :order => params[:sort])
       @checked = params[:ratings]
     else
-      @movies = Movie.all(:order => params[:sort])
-      
+      session.clear
+      @movies = Movie.all(:order => params[:sort])    
       @checked = {}
     end
-    puts "/////////////  #{params[:ratings].inspect}" 
   end
 
   def new
