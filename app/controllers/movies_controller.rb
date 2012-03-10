@@ -8,16 +8,16 @@ class MoviesController < ApplicationController
 
   def index    
     @all_ratings = Movie.all_ratings
-    if params[:ratings] != nil
+    if params[:ratings] == nil then params[:ratings] = Hash.new end
       session[:ratings] = params[:ratings]
       session[:sort] = params[:sort]
       @movies = Movie.find_all_by_rating( params[:ratings].keys, :order => params[:sort])
       @checked = params[:ratings]
-    else
-      session.clear
-      @movies = Movie.all(:order => params[:sort])    
-      @checked = {}
-    end
+    #else
+    #  session.clear
+    #  @movies = Movie.all(:order => params[:sort])    
+    #  @checked = {}
+    #end
   end
 
   def new
